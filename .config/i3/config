@@ -89,7 +89,7 @@ bindsym $mod+c kill
 # start dmenu (a program launcher)
 #bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
-bindsym $mod+d exec "rofi -show drun -theme ~/.config/rofi/AppLauncher/launcher.rasi"
+bindsym $mod+d exec "rofi -show drun -theme ~/.config/rofi/launcher.rasi"
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
@@ -214,6 +214,8 @@ bindsym $mod+r mode "resize"
 
 #Lockscript
 bindsym $mod+x exec "~/.config/i3/lockscreen.sh"
+
+exec_always --no-startup-id ~/dotfiles/.config/polybar/launch.sh
 
 #Compositor
 exec_always picom 
