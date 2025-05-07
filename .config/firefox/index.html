@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Tab</title>
+    <style>
+      body {
+        background-color: #292f36;
+        color: #e0fbfc;
+        font-family: "Cantarell", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .search-bar {
+        width: 60%;
+        margin-bottom: 40px;
+      }
+
+      .categories {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 80%;
+        max-width: 800px;
+      }
+
+      .category {
+        margin-bottom: 20px;
+      }
+
+      .category-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .category-title {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .shortcuts {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .shortcut {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+        transition: background-color 0.2s;
+      }
+
+      .shortcut:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .shortcut a {
+        color: #e0fbfc;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .icon {
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search with Google or enter address"
+        style="
+          width: 100%;
+          padding: 10px;
+          border-radius: 5px;
+          border: none;
+          background-color: rgba(255, 255, 255, 0.1);
+          color: #e0fbfc;
+        "
+      />
+    </div>
+
+    <div class="categories">
+      <div class="category">
+        <div class="category-header">
+          <div class="category-title">General</div>
+          <div class="category-action">Open all</div>
+        </div>
+        <div class="shortcuts">
+          <div class="shortcut">
+            <a href="https://amazon.com">
+              <div class="icon">🛒</div>
+              <div>Amazon</div>
+            </a>
+          </div>
+          <div class="shortcut">
+            <a href="https://drive.google.com">
+              <div class="icon">📁</div>
+              <div>Drive</div>
+            </a>
+          </div>
+          <div class="shortcut">
+            <a href="https://gmail.com">
+              <div class="icon">✉️</div>
+              <div>Gmail</div>
+            </a>
+          </div>
+          <div class="shortcut">
+            <a href="https://reddit.com">
+              <div class="icon">🤖</div>
+              <div>Reddit</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-header">
+          <div class="category-title">Dev</div>
+          <div class="category-action">Open all</div>
+        </div>
+        <div class="shortcuts">
+          <div class="shortcut">
+            <a href="https://github.com">
+              <div class="icon">🐙</div>
+              <div>GitHub</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
