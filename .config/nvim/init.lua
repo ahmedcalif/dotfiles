@@ -1,4 +1,4 @@
--- Check for Neovim version compatibility
+# Check for Neovim version compatibility
 if vim.fn.has('nvim-0.10') == 0 then
   vim.api.nvim_echo({
     { "This config requires Neovim 0.10.0 or higher. Please update Neovim!", "ErrorMsg" },
@@ -483,7 +483,7 @@ vim.filetype.add({
 -- stop zig qf list from opening
 vim.g.zig_fmt_parse_errors = 0
 
--- treesitter config with error handling - MODIFIED to disable incremental selection
+-- treesitter config with error handling - FIXED for markdown support
 local function setup_treesitter()
   local ts_success, config = pcall(require, "nvim-treesitter.configs")
   if not ts_success then
@@ -493,16 +493,29 @@ local function setup_treesitter()
 
   config.setup({
     ignore_install = {},
+    -- FIXED: Added markdown and markdown_inline parsers
     ensure_installed = {
-      "vimdoc", "lua", -- Keep only essentials for initial setup
+      "vimdoc", "lua", "markdown", "markdown_inline",
       -- You can add more languages back gradually as they get installed
     },
     highlight = {
       enable = true,
+      -- IMPORTANT: Disable markdown highlighting if it causes issues
+      disable = function(lang, buf)
+        -- Disable for very large files
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+          return true
+        end
+
+        -- You can disable specific languages if they cause problems
+        -- return lang == "markdown_inline"
+      end,
     },
     indent = { enable = true },
     modules = {},
-    sync_install = true,
+    sync_install = false, -- Changed to false for better stability
     auto_install = true,
     -- IMPORTANT: Completely disable incremental selection to fix double key press issues
     incremental_selection = {
@@ -513,6 +526,39 @@ end
 
 -- Set up treesitter with error handling
 setup_treesitter()
+
+-- Add markdown-specific configuration
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    -- Enable spell checking for markdown files
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = "en_us"
+
+    -- Set up better text wrapping for markdown
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+    vim.opt_local.textwidth = 80
+
+    -- Enable conceallevel for better markdown rendering
+    vim.opt_local.conceallevel = 2
+  end,
+})
+
+-- Install markdown parsers automatically
+vim.api.nvim_create_user_command("InstallMarkdownParsers", function()
+  vim.cmd("TSInstall markdown markdown_inline")
+  vim.notify("Installing markdown parsers...", vim.log.levels.INFO)
+end, {})
+
+-- Check if markdown parsers are installed and install if needed
+vim.defer_fn(function()
+  local parsers = require("nvim-treesitter.parsers")
+  if not parsers.has_parser("markdown") or not parsers.has_parser("markdown_inline") then
+    vim.notify("Installing missing markdown parsers...", vim.log.levels.INFO)
+    vim.cmd("TSInstall markdown markdown_inline")
+  end
+end, 1000) -- Wait 1 second after startup
 
 -- Load additional modules with error handling
 local function safe_require(module)

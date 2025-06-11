@@ -45,11 +45,9 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # Sreen brightness controls
 
- bindsym $mod+F5  XF86MonBrightnessUp exec --no-startup-id brightnessctl -d intel_backlight  set +5%  
 
- bindsym $mod+F4  XF86MonBrightnessDown exec --no-startup-id brightnessctl -d intel_backlight set 5%-
-
-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -d intel_backlight set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -d intel_backlight set 5%-
 
 
 # Media player controls
